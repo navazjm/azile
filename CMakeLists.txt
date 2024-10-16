@@ -3,6 +3,8 @@ project(azile VERSION 0.1.0)
 
 set(CMAKE_OSX_SYSROOT /Library/Developer/CommandLineTools/SDKs/MacOSX14.sdk)
 
+set(CMAKE_DEBUG_POSTFIX _d)
+
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
@@ -19,6 +21,7 @@ target_compile_options(azile_lib PRIVATE -Wall -Wextra -Werror)
 target_include_directories(azile_lib PUBLIC src)
 add_executable(azile "src/azile.c")
 target_link_libraries(azile PRIVATE azile_lib ${LIBGIT2_LIBRARIES})  # Link the library to the executable
+set_target_properties(azile PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 ### AddressSanitizer ###
 # target_compile_options(azile PRIVATE -fsanitize=address -fno-omit-frame-pointer)
