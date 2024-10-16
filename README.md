@@ -11,11 +11,10 @@
         - [ ] truncate until root of git dir
         - [ ] display branch 
         - [ ] display icon to represent git changes
-- [ ] Display delimiter char
+- [x] Display delimiter char
 - [ ] Use colors from terminal theme / kitty config
-- [ ] CMake
-    - [ ] fetch libgit2
-    - [ ] link libraries libgit2 
+- [x] CMake
+    - [x] link libraries libgit2 (installed via homebrew) 
 
 ## Table of Contents
 - [Quick Start](#quick-start)
