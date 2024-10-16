@@ -3,7 +3,7 @@
 mkdir -p build/release
 cd build/release
 
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ../..
+CC=/opt/homebrew/bin/gcc-14 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ../..
 
 # Needed for neovim clangd lsp
 # Remove existing symlink if it exists
@@ -13,4 +13,4 @@ ln -s build/release/compile_commands.json ../../compile_commands.json
 
 make azile
 cd ../..
-./build/release/azile
+./build/release/azile "$@"
