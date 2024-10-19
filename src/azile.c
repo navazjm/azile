@@ -5,6 +5,14 @@
 #include <string.h>
 #include <unistd.h>
 
+char *
+ansi_text(const char *msg, uint8_t ansi_code)
+{
+    char *text;
+    asprintf(&text, "\033[%dm%s\033[0m", ansi_code, msg);
+    return text;
+}
+
 int
 main()
 {
@@ -14,7 +22,7 @@ main()
     if (cwd == NULL)
     {
         // no cwd, just render end_prompt_symbol (">>")
-        printf("\033[36m%s\033[0m", end_prompt_symbol);
+        printf("%s%s", ansi_text(end_prompt_symbol, 36), ansi_text("", 0));
         return EXIT_SUCCESS;
     }
 
@@ -29,12 +37,13 @@ main()
         // print full cwd if no home or not in home dir
         if (home == NULL || strncmp(cwd, home, strlen(home)) != 0)
         {
-            printf("\033[33m%s \033[36m%s\033[0m", cwd, end_prompt_symbol);
+            printf("%s %s%s", ansi_text(cwd, 33), ansi_text(end_prompt_symbol, 36), ansi_text("", 0));
             git_libgit2_shutdown();
             return EXIT_SUCCESS;
         }
         // truncate cwd to ~ to represent home dir
-        printf("\033[33m~%s \033[36m%s\033[0m", cwd + strlen(home), end_prompt_symbol);
+        printf("%s%s %s%s", ansi_text("~", 33), ansi_text(cwd + strlen(home), 33), ansi_text(end_prompt_symbol, 36),
+               ansi_text("", 0));
         git_libgit2_shutdown();
         return EXIT_SUCCESS;
     }
@@ -51,13 +60,13 @@ main()
     memmove(git_root_dir, second_last_slash + 1, strlen(second_last_slash) + 1);
     char *git_root_dir_pos = strstr(cwd, git_root_dir);
     memmove(cwd, git_root_dir_pos, strlen(git_root_dir_pos) + 1);
-    asprintf(&full_prompt, "\033[33;1m%s", cwd);
+    asprintf(&full_prompt, "%s", ansi_text(cwd, 33));
 
     git_reference *git_head_ref = NULL;
     git_repository_head(&git_head_ref, git_repo);
     const char *branch = git_reference_shorthand(git_head_ref);
     if (branch)
-        asprintf(&full_prompt, "%s\033[0;1m::\033[95;1m%s", full_prompt, branch);
+        asprintf(&full_prompt, "%s%s%s", full_prompt, ansi_text("::", 0), ansi_text(branch, 95));
 
     // display icon if git status is not clean
     git_status_options git_status_opts;
@@ -69,15 +78,15 @@ main()
     size_t git_status_size = git_status_list_entrycount(git_status);
     if (git_status_size != 0)
     {
-        char *status_symbol = "";
-        asprintf(&full_prompt, "%s(%s)", full_prompt, status_symbol);
+        char *status_symbol = ansi_text("()", 95);
+        asprintf(&full_prompt, "%s%s", full_prompt, status_symbol);
     }
 
     git_repository_free(git_repo);
     git_reference_free(git_head_ref);
     git_status_list_free(git_status);
 
-    asprintf(&full_prompt, "%s \033[36;1m%s\033[0m", full_prompt, end_prompt_symbol);
+    asprintf(&full_prompt, "%s %s%s", full_prompt, ansi_text(end_prompt_symbol, 36), ansi_text("", 0));
     printf("%s", full_prompt);
     git_libgit2_shutdown();
     return EXIT_SUCCESS;
