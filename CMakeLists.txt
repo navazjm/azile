@@ -8,7 +8,7 @@ set(CMAKE_DEBUG_POSTFIX _d)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-# TODO: fetch libtgit2 if not already installed
+# TODO: fetch libgit2 if not already installed
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBGIT2 REQUIRED libgit2)
 include_directories(${LIBGIT2_INCLUDE_DIRS})
