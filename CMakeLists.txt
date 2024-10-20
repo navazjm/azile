@@ -23,6 +23,8 @@ add_executable(azile "src/azile.c")
 target_link_libraries(azile PRIVATE azile_lib ${LIBGIT2_LIBRARIES})  # Link the library to the executable
 set_target_properties(azile PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
+install(TARGETS azile DESTINATION /usr/local/bin)
+
 ### AddressSanitizer ###
 # target_compile_options(azile PRIVATE -fsanitize=address -fno-omit-frame-pointer)
 # target_link_options(azile PRIVATE -fsanitize=address)
