@@ -41,6 +41,9 @@ the images below.
 
 ### Dependencies
 
+- [Nerd Fonts](https://www.nerdfonts.com/) to render special icons
+- [libgit2](https://github.com/libgit2/libgit2) for git support
+
 ### Install From Source
 
 1. Clone the repo
