@@ -8,21 +8,26 @@
 char *
 ansi_text(const char *msg, uint8_t ansi_code)
 {
+    // use %%{ and %%} to markers that identify the escape sequences. Without these,
+    // zsh will count escape sequences as part of the display length of your prompt,
+    // and you'll end up with bizarre cursor positioning and line editor behavior on longer commands
+
     char *text;
-    asprintf(&text, "\033[%dm%s\033[0m", ansi_code, msg);
+    asprintf(&text, "%%{\e[0;%dm%%}%s%%{\e[0m%%}", ansi_code, msg);
+
     return text;
 }
 
 int
 main()
 {
-    char *end_prompt_symbol = "";
+    char *prompt_end_symbol = "";
 
     char *cwd = getcwd(NULL, 0);
     if (cwd == NULL)
     {
         // no cwd, just render end_prompt_symbol (">>")
-        printf("%s%s", ansi_text(end_prompt_symbol, 36), ansi_text("", 0));
+        printf("%s", ansi_text(prompt_end_symbol, 36));
         return EXIT_SUCCESS;
     }
 
@@ -37,18 +42,17 @@ main()
         // print full cwd if no home or not in home dir
         if (home == NULL || strncmp(cwd, home, strlen(home)) != 0)
         {
-            printf("%s %s%s", ansi_text(cwd, 33), ansi_text(end_prompt_symbol, 36), ansi_text("", 0));
+            printf("%s %s", ansi_text(cwd, 33), ansi_text(prompt_end_symbol, 36));
             git_libgit2_shutdown();
             return EXIT_SUCCESS;
         }
         // truncate cwd to ~ to represent home dir
-        printf("%s%s %s%s", ansi_text("~", 33), ansi_text(cwd + strlen(home), 33), ansi_text(end_prompt_symbol, 36),
-               ansi_text("", 0));
+        printf("%s%s %s", ansi_text("~", 33), ansi_text(cwd + strlen(home), 33), ansi_text(prompt_end_symbol, 36));
         git_libgit2_shutdown();
         return EXIT_SUCCESS;
     }
 
-    char *full_prompt;
+    char *prompt;
 
     // truncate until path begins with git root dir
     // Ex: /Users/michaelnavarro/repos/azile/src -> azile/src
@@ -60,13 +64,13 @@ main()
     memmove(git_root_dir, second_last_slash + 1, strlen(second_last_slash) + 1);
     char *git_root_dir_pos = strstr(cwd, git_root_dir);
     memmove(cwd, git_root_dir_pos, strlen(git_root_dir_pos) + 1);
-    asprintf(&full_prompt, "%s", ansi_text(cwd, 33));
+    asprintf(&prompt, "%s", ansi_text(cwd, 33));
 
     git_reference *git_head_ref = NULL;
     git_repository_head(&git_head_ref, git_repo);
     const char *branch = git_reference_shorthand(git_head_ref);
     if (branch)
-        asprintf(&full_prompt, "%s%s%s", full_prompt, ansi_text("::", 0), ansi_text(branch, 95));
+        asprintf(&prompt, "%s%s%s", prompt, ansi_text("::", 0), ansi_text(branch, 95));
 
     // display icon if git status is not clean
     git_status_options git_status_opts;
@@ -79,15 +83,15 @@ main()
     if (git_status_size != 0)
     {
         char *status_symbol = ansi_text("()", 95);
-        asprintf(&full_prompt, "%s%s", full_prompt, status_symbol);
+        asprintf(&prompt, "%s%s", prompt, status_symbol);
     }
 
     git_repository_free(git_repo);
     git_reference_free(git_head_ref);
     git_status_list_free(git_status);
-
-    asprintf(&full_prompt, "%s %s%s", full_prompt, ansi_text(end_prompt_symbol, 36), ansi_text("", 0));
-    printf("%s", full_prompt);
     git_libgit2_shutdown();
+
+    printf("%s %s", prompt, ansi_text(prompt_end_symbol, 36));
+    fflush(stdout);
     return EXIT_SUCCESS;
 }
