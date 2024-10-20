@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -rf build/release
+
 # Set the necessary environment variables
 export PKG_CONFIG_PATH="/opt/homebrew/opt/libgit2/lib/pkgconfig"
 
