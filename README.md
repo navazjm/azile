@@ -1,21 +1,5 @@
 # Azile
 
-*Note: This is a work in progress and has only been tested on ARM based MacOS.*
-
-## TODO
-
-- [ ] Get OS Icon
-- [ ] Display Dir
-    - [ ] get cwd
-    - [ ] if git dir
-        - [ ] truncate until root of git dir
-        - [ ] display branch 
-        - [ ] display icon to represent git changes
-- [x] Display delimiter char
-- [ ] Use colors from terminal theme / kitty config
-- [x] CMake
-    - [x] link libraries libgit2 (installed via homebrew) 
-
 ## Table of Contents
 - [Quick Start](#quick-start)
 - [Overview](#overview)
@@ -26,11 +10,84 @@
 
 ## Quick Start
 
+Step 1: Download azile. Checkout how to [install](#install) azile below.
+
+Step 2: Add the following line to your shell rc
+
+```sh
+PS1='$(azile) '
+```
+
 ## Overview
+
+A very simple shell prompt configured to the exact design that I like. Refer to
+the images below.
+
+*Note: This has only been tested on ARM based MacOS with ZSH.*
+
+### Non-git repo
+
+![Format for non-git repo dirs](./assets/non_git_repo.png)
+
+### Git repo
+
+![Format for clean git repos](./assets/git_repo_clean.png)
+
+### Git repo with un-clean working tree
+
+![Format for un-clean git repos](./assets/git_repo_unclean.png)
 
 ## Install
 
+### Dependencies
+
 ### Install From Source
+
+1. Clone the repo
+
+```sh 
+git clone https://github.com/navazjm/azile.git
+```
+
+2. cd into azile
+
+```sh 
+cd azile
+```
+
+#### MacOS & Linux
+
+Either run the install script or manually build with CMake
+
+##### Script
+
+1. Run the install script 
+
+```sh 
+sudo ./scripts/install.sh
+```
+
+*Note: The install script runs the commands found in the following CMake section.
+Use `sudo` to move `tloc` executable into `/usr/local/bin/`. This requires
+elevated privilages and allows you to use `azile` from any directory*
+
+##### CMake  
+
+1. Run cmake
+
+```sh 
+cmake -S . -B build/release
+```
+
+3. Run make install
+
+```sh 
+sudo make install -C build/release
+```
+
+*Note: Use `sudo` to move `tloc` executable into `/usr/local/bin/`. This requires
+elevated privilages and allows you to use `tloc` from any directory*
+
 
 ## Contributing 
 
