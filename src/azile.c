@@ -3,9 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
-char *
-ansi_text(const char *msg, uint8_t ansi_code)
-{
+char *ansi_text(const char *msg, uint8_t ansi_code) {
     // use %%{ and %%} to markers that identify the escape sequences. Without these,
     // zsh will count escape sequences as part of the display length of your prompt,
     // and you'll end up with bizarre cursor positioning and line editor behavior on longer commands
@@ -16,14 +14,11 @@ ansi_text(const char *msg, uint8_t ansi_code)
     return text;
 }
 
-int
-main(void)
-{
+int main(void) {
     char *prompt_end_symbol = "";
 
     char *cwd = getcwd(NULL, 0);
-    if (cwd == NULL)
-    {
+    if (cwd == NULL) {
         // no cwd, just render end_prompt_symbol (">>")
         printf("%s", ansi_text(prompt_end_symbol, 36));
         return EXIT_SUCCESS;
@@ -34,12 +29,10 @@ main(void)
     git_repository_open_ext(&git_repo, cwd, GIT_REPOSITORY_OPEN_FROM_ENV, NULL);
 
     // no git repo, just render "dir >> "
-    if (git_repo == NULL)
-    {
+    if (git_repo == NULL) {
         const char *home = getenv("HOME");
         // print full cwd if no home or not in home dir
-        if (home == NULL || strncmp(cwd, home, strlen(home)) != 0)
-        {
+        if (home == NULL || strncmp(cwd, home, strlen(home)) != 0) {
             printf("%s %s", ansi_text(cwd, 33), ansi_text(prompt_end_symbol, 36));
             git_libgit2_shutdown();
             return EXIT_SUCCESS;
@@ -78,8 +71,7 @@ main(void)
     git_status_list *git_status = NULL;
     git_status_list_new(&git_status, git_repo, &git_status_opts);
     size_t git_status_size = git_status_list_entrycount(git_status);
-    if (git_status_size != 0)
-    {
+    if (git_status_size != 0) {
         char *status_symbol = ansi_text("()", 95);
         asprintf(&prompt, "%s%s", prompt, status_symbol);
     }
