@@ -17,7 +17,7 @@ ansi_text(const char *msg, uint8_t ansi_code)
 }
 
 int
-main()
+main(void)
 {
     char *prompt_end_symbol = "";
 
