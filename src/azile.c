@@ -1,5 +1,3 @@
-#include "git2/repository.h"
-#include "git2/status.h"
 #include <git2.h>
 #include <stdio.h>
 #include <string.h>
