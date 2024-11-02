@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define AZ_SB_INIT_CAP 256
-
 // Append a NULL-terminated string to a string builder
 void az_sb_append_cstr(AZ_String_Builder *sb, const char *cstr) {
     size_t n = strlen(cstr);

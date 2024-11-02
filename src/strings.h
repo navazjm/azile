@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 
+#define AZ_SB_INIT_CAP 256
+
 typedef struct {
     char *items;
     size_t count;
