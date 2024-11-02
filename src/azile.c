@@ -44,19 +44,18 @@ int main(void) {
         az_return_defer(true);
     }
 
-    // TODO: can we clean this up??
     // truncate until path begins with git root dir
     // Ex: /Users/michaelnavarro/repos/azile/src -> azile/src
     const char *workdir = git_repository_workdir(git_repo);
-    char *git_root_dir = strdup(workdir);
-    char *last_slash_pos = strrchr(git_root_dir, '/');
-    *last_slash_pos = '\0'; // Temporarily terminate the string before the last slash
-    char *second_last_slash = strrchr(git_root_dir, '/');
-    memmove(git_root_dir, second_last_slash + 1, strlen(second_last_slash) + 1);
-    char *git_root_dir_pos = strstr(cwd, git_root_dir);
-    memmove(cwd, git_root_dir_pos, strlen(git_root_dir_pos) + 1);
-    az_sb_append_cstr(&prompt, ansi_text(cwd, cfg.dir_ansi_code));
+    char *last_slash_pos = strrchr(workdir, '/');
+    *last_slash_pos = '\0'; // Temporarily terminate the string at the last slash
+    char *second_last_slash_pos = strrchr(workdir, '/');
+    *second_last_slash_pos = '\0'; // Temporarily terminate the string at the second to last slash
+    az_sb_append_cstr(&prompt, ansi_text(cwd + strlen(workdir) + 1, cfg.dir_ansi_code));
     az_sb_append_cstr(&prompt, ansi_text("::", "0"));
+    // restore slashes
+    *last_slash_pos = '/';
+    *second_last_slash_pos = '/';
 
     git_reference *git_head_ref = NULL;
     if (git_repository_head(&git_head_ref, git_repo) == 0) {
