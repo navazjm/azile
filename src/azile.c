@@ -1,5 +1,8 @@
+#include "common.h"
 #include "config.h"
+#include "strings.h"
 #include <git2.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -13,14 +16,14 @@ char *ansi_text(const char *msg, char *ansi_code) {
 }
 
 int main(void) {
+    bool result = true;
+    AZ_String_Builder prompt = {0};
     AZ_Config cfg = {0};
     az_config_setup(&cfg);
 
     char *cwd = getcwd(NULL, 0);
     if (cwd == NULL) {
-        // no cwd, just render end_prompt_symbol (">>")
-        printf("%s", ansi_text(cfg.prompt_end_symbol, cfg.prompt_end_symbol_ansi_code));
-        return EXIT_SUCCESS;
+        az_return_defer(false);
     }
 
     git_libgit2_init();
@@ -32,19 +35,16 @@ int main(void) {
         const char *home = getenv("HOME");
         // print full cwd if no home or not in home dir
         if (home == NULL || strncmp(cwd, home, strlen(home)) != 0) {
-            printf("%s %s", ansi_text(cwd, cfg.dir_ansi_code),
-                   ansi_text(cfg.prompt_end_symbol, cfg.prompt_end_symbol_ansi_code));
-            git_libgit2_shutdown();
-            return EXIT_SUCCESS;
+            az_sb_append_cstr(&prompt, ansi_text(cwd, cfg.dir_ansi_code));
+            az_sb_append_cstr(&prompt, " ");
+            az_return_defer(true);
         }
         // truncate cwd to ~ to represent home dir
-        printf("%s%s %s", ansi_text("~", cfg.dir_ansi_code), ansi_text(cwd + strlen(home), cfg.dir_ansi_code),
-               ansi_text(cfg.prompt_end_symbol, cfg.prompt_end_symbol_ansi_code));
-        git_libgit2_shutdown();
-        return EXIT_SUCCESS;
+        az_sb_append_cstr(&prompt, ansi_text("~", cfg.dir_ansi_code));
+        az_sb_append_cstr(&prompt, ansi_text(cwd + strlen(home), cfg.dir_ansi_code));
+        az_sb_append_cstr(&prompt, " ");
+        az_return_defer(true);
     }
-
-    char *prompt;
 
     // TODO: can we clean this up??
     // truncate until path begins with git root dir
@@ -57,13 +57,32 @@ int main(void) {
     memmove(git_root_dir, second_last_slash + 1, strlen(second_last_slash) + 1);
     char *git_root_dir_pos = strstr(cwd, git_root_dir);
     memmove(cwd, git_root_dir_pos, strlen(git_root_dir_pos) + 1);
-    asprintf(&prompt, "%s", ansi_text(cwd, cfg.dir_ansi_code));
+    az_sb_append_cstr(&prompt, ansi_text(cwd, cfg.dir_ansi_code));
+    az_sb_append_cstr(&prompt, ansi_text("::", "0"));
 
     git_reference *git_head_ref = NULL;
     git_repository_head(&git_head_ref, git_repo);
-    const char *branch = git_reference_shorthand(git_head_ref);
-    if (branch)
-        asprintf(&prompt, "%s%s%s", prompt, ansi_text("::", "0"), ansi_text(branch, cfg.git_ansi_code));
+    if (git_head_ref) {
+        const char *branch = git_reference_shorthand(git_head_ref);
+        if (branch) {
+            az_sb_append_cstr(&prompt, ansi_text(branch, cfg.git_ansi_code));
+        }
+    } else {
+        // typically reach here when user is in newly created git repo, i.e., has no head reference yet.
+        git_config *git_cfg = NULL;
+        char *default_branch = "main"; // Fallback if no default is set in config
+        const char *branch_value = NULL;
+
+        git_config_open_default(&git_cfg);
+        if (git_cfg) {
+            if (git_config_get_string(&branch_value, git_cfg, "init.defaultBranch") == 0) {
+                default_branch = strdup(branch_value); // Set to the user's config value
+            }
+            git_config_free(git_cfg); // Free the config object
+        }
+
+        az_sb_append_cstr(&prompt, ansi_text(default_branch, cfg.git_ansi_code));
+    }
 
     // display icon if git status is not clean
     git_status_options git_status_opts;
@@ -74,16 +93,20 @@ int main(void) {
     git_status_list_new(&git_status, git_repo, &git_status_opts);
     size_t git_status_size = git_status_list_entrycount(git_status);
     if (git_status_size != 0) {
-        asprintf(&prompt, "%s%s", prompt, ansi_text(cfg.git_status_symbol, cfg.git_ansi_code));
+        az_sb_append_cstr(&prompt, ansi_text(cfg.git_status_symbol, cfg.git_ansi_code));
     }
+    az_sb_append_cstr(&prompt, " ");
 
     git_repository_free(git_repo);
     git_reference_free(git_head_ref);
     git_status_list_free(git_status);
-    git_libgit2_shutdown();
 
-    printf("%s %s", prompt, ansi_text(cfg.prompt_end_symbol, cfg.prompt_end_symbol_ansi_code));
+defer:
+    printf("%s%s", prompt.items ? prompt.items : "", ansi_text(cfg.prompt_end_symbol, cfg.prompt_end_symbol_ansi_code));
     fflush(stdout);
+    az_sb_free(&prompt);
     az_config_teardown(&cfg);
+    if (result)
+        git_libgit2_shutdown();
     return EXIT_SUCCESS;
 }
