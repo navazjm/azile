@@ -28,10 +28,8 @@ int main(void) {
 
     git_libgit2_init();
     git_repository *git_repo;
-    git_repository_open_ext(&git_repo, cwd, GIT_REPOSITORY_OPEN_FROM_ENV, NULL);
-
-    // no git repo, just render "dir >> "
-    if (git_repo == NULL) {
+    if (git_repository_open_ext(&git_repo, cwd, GIT_REPOSITORY_OPEN_FROM_ENV, NULL) != 0) {
+        // no git repo, just render "dir >> "
         const char *home = getenv("HOME");
         // print full cwd if no home or not in home dir
         if (home == NULL || strncmp(cwd, home, strlen(home)) != 0) {
@@ -39,7 +37,7 @@ int main(void) {
             az_sb_append_cstr(&prompt, " ");
             az_return_defer(true);
         }
-        // truncate cwd to ~ to represent home dir
+        // truncate home path to "~"
         az_sb_append_cstr(&prompt, ansi_text("~", cfg.dir_ansi_code));
         az_sb_append_cstr(&prompt, ansi_text(cwd + strlen(home), cfg.dir_ansi_code));
         az_sb_append_cstr(&prompt, " ");
@@ -61,23 +59,20 @@ int main(void) {
     az_sb_append_cstr(&prompt, ansi_text("::", "0"));
 
     git_reference *git_head_ref = NULL;
-    git_repository_head(&git_head_ref, git_repo);
-    if (git_head_ref) {
+    if (git_repository_head(&git_head_ref, git_repo) == 0) {
         const char *branch = git_reference_shorthand(git_head_ref);
-        if (branch) {
+        if (branch)
             az_sb_append_cstr(&prompt, ansi_text(branch, cfg.git_ansi_code));
-        }
     } else {
-        // typically reach here when user is in newly created git repo, i.e., has no head reference yet.
+        // typically reach here when user is in newly created git dir, i.e., has no head reference yet.
         git_config *git_cfg = NULL;
         char *default_branch = "main"; // Fallback if no default is set in config
         const char *branch_value = NULL;
 
         git_config_open_default(&git_cfg);
         if (git_cfg) {
-            if (git_config_get_string(&branch_value, git_cfg, "init.defaultBranch") == 0) {
-                default_branch = strdup(branch_value); // Set to the user's config value
-            }
+            if (git_config_get_string(&branch_value, git_cfg, "init.defaultBranch") == 0)
+                default_branch = strdup(branch_value);
             git_config_free(git_cfg); // Free the config object
         }
 
@@ -92,9 +87,8 @@ int main(void) {
     git_status_list *git_status = NULL;
     git_status_list_new(&git_status, git_repo, &git_status_opts);
     size_t git_status_size = git_status_list_entrycount(git_status);
-    if (git_status_size != 0) {
+    if (git_status_size != 0)
         az_sb_append_cstr(&prompt, ansi_text(cfg.git_status_symbol, cfg.git_ansi_code));
-    }
     az_sb_append_cstr(&prompt, " ");
 
     git_repository_free(git_repo);
