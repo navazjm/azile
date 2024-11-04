@@ -7,10 +7,14 @@
 #include <string.h>
 #include <unistd.h>
 
-char *ansi_text(const char *msg, char *ansi_code) {
-    // TODO: incorporate ansi escape sequences from config
+char *ansi_text(const char *msg, char *ansi_code, char *ansi_esc_seq_begin, char *ansi_esc_seq_end) {
     char *text;
-    asprintf(&text, "\e[0;%sm%s\e[0m", ansi_code, msg);
+    if (ansi_esc_seq_begin == NULL) {
+        asprintf(&text, "\e[0;%sm%s\e[0m", ansi_code, msg);
+    } else {
+        asprintf(&text, "%s\e[0;%sm%s%s%s\e[0m%s", ansi_esc_seq_begin, ansi_code, ansi_esc_seq_end, msg,
+                 ansi_esc_seq_begin, ansi_esc_seq_end);
+    }
 
     return text;
 }
@@ -33,13 +37,16 @@ int main(void) {
         const char *home = getenv("HOME");
         // print full cwd if no home or not in home dir
         if (home == NULL || strncmp(cwd, home, strlen(home)) != 0) {
-            az_sb_append_cstr(&prompt, ansi_text(cwd, cfg.dir_ansi_code));
+            az_sb_append_cstr(
+                &prompt, ansi_text(cwd, cfg.dir_ansi_code, cfg.ansi_code_esc_seq_begin, cfg.ansi_code_esc_seq_end));
             az_sb_append_cstr(&prompt, " ");
             az_return_defer(true);
         }
         // truncate home path to "~"
-        az_sb_append_cstr(&prompt, ansi_text("~", cfg.dir_ansi_code));
-        az_sb_append_cstr(&prompt, ansi_text(cwd + strlen(home), cfg.dir_ansi_code));
+        az_sb_append_cstr(&prompt,
+                          ansi_text("~", cfg.dir_ansi_code, cfg.ansi_code_esc_seq_begin, cfg.ansi_code_esc_seq_end));
+        az_sb_append_cstr(&prompt, ansi_text(cwd + strlen(home), cfg.dir_ansi_code, cfg.ansi_code_esc_seq_begin,
+                                             cfg.ansi_code_esc_seq_end));
         az_sb_append_cstr(&prompt, " ");
         az_return_defer(true);
     }
@@ -51,8 +58,9 @@ int main(void) {
     *last_slash_pos = '\0'; // Temporarily terminate the string at the last slash
     char *second_last_slash_pos = strrchr(workdir, '/');
     *second_last_slash_pos = '\0'; // Temporarily terminate the string at the second to last slash
-    az_sb_append_cstr(&prompt, ansi_text(cwd + strlen(workdir) + 1, cfg.dir_ansi_code));
-    az_sb_append_cstr(&prompt, ansi_text("::", "0"));
+    az_sb_append_cstr(&prompt, ansi_text(cwd + strlen(workdir) + 1, cfg.dir_ansi_code, cfg.ansi_code_esc_seq_begin,
+                                         cfg.ansi_code_esc_seq_end));
+    az_sb_append_cstr(&prompt, ansi_text("::", "0", cfg.ansi_code_esc_seq_begin, cfg.ansi_code_esc_seq_end));
     // restore slashes
     *last_slash_pos = '/';
     *second_last_slash_pos = '/';
@@ -61,7 +69,8 @@ int main(void) {
     if (git_repository_head(&git_head_ref, git_repo) == 0) {
         const char *branch = git_reference_shorthand(git_head_ref);
         if (branch)
-            az_sb_append_cstr(&prompt, ansi_text(branch, cfg.git_ansi_code));
+            az_sb_append_cstr(
+                &prompt, ansi_text(branch, cfg.git_ansi_code, cfg.ansi_code_esc_seq_begin, cfg.ansi_code_esc_seq_end));
     } else {
         // typically reach here when user is in newly created git dir, i.e., has no head reference yet.
         git_config *git_cfg = NULL;
@@ -75,7 +84,8 @@ int main(void) {
             git_config_free(git_cfg); // Free the config object
         }
 
-        az_sb_append_cstr(&prompt, ansi_text(default_branch, cfg.git_ansi_code));
+        az_sb_append_cstr(&prompt, ansi_text(default_branch, cfg.git_ansi_code, cfg.ansi_code_esc_seq_begin,
+                                             cfg.ansi_code_esc_seq_end));
     }
 
     // display icon if git status is not clean
@@ -87,7 +97,8 @@ int main(void) {
     git_status_list_new(&git_status, git_repo, &git_status_opts);
     size_t git_status_size = git_status_list_entrycount(git_status);
     if (git_status_size != 0)
-        az_sb_append_cstr(&prompt, ansi_text(cfg.git_status_symbol, cfg.git_ansi_code));
+        az_sb_append_cstr(&prompt, ansi_text(cfg.git_status_symbol, cfg.git_ansi_code, cfg.ansi_code_esc_seq_begin,
+                                             cfg.ansi_code_esc_seq_end));
     az_sb_append_cstr(&prompt, " ");
 
     git_repository_free(git_repo);
@@ -95,7 +106,9 @@ int main(void) {
     git_status_list_free(git_status);
 
 defer:
-    printf("%s%s", prompt.items ? prompt.items : "", ansi_text(cfg.prompt_end_symbol, cfg.prompt_end_symbol_ansi_code));
+    printf("%s%s", prompt.items ? prompt.items : "",
+           ansi_text(cfg.prompt_end_symbol, cfg.prompt_end_symbol_ansi_code, cfg.ansi_code_esc_seq_begin,
+                     cfg.ansi_code_esc_seq_end));
     fflush(stdout);
     az_sb_free(&prompt);
     az_config_teardown(&cfg);

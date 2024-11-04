@@ -3,7 +3,7 @@
 
 typedef struct {
     char *shell;
-    char *ansi_code_esc_seq_start;
+    char *ansi_code_esc_seq_begin;
     char *ansi_code_esc_seq_end;
     char *prompt_end_symbol;
     char *prompt_end_symbol_ansi_code;

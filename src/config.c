@@ -8,14 +8,14 @@ void az_config_setup(AZ_Config *cfg) {
     // with stuff like tab completion, zsh auto-completion, and so on.
 
     cfg->shell = getenv("SHELL");
-    cfg->ansi_code_esc_seq_start = NULL;
+    cfg->ansi_code_esc_seq_begin = NULL;
     cfg->ansi_code_esc_seq_end = NULL;
     if (cfg->shell != NULL) {
         if (strstr(cfg->shell, "zsh") != NULL) {
-            cfg->ansi_code_esc_seq_start = "%%{";
+            cfg->ansi_code_esc_seq_begin = "%%{";
             cfg->ansi_code_esc_seq_end = "%%}";
         } else if (strstr(cfg->shell, "bash") != NULL) {
-            cfg->ansi_code_esc_seq_start = "\\[";
+            cfg->ansi_code_esc_seq_begin = "\\[";
             cfg->ansi_code_esc_seq_end = "\\]";
         }
     }
@@ -25,6 +25,7 @@ void az_config_setup(AZ_Config *cfg) {
         cfg->prompt_end_symbol = "";
     }
 
+    // TODO: retrieve the following colors from getenv
     cfg->prompt_end_symbol_ansi_code = "36";
     cfg->dir_ansi_code = "33";
     cfg->git_ansi_code = "95";
