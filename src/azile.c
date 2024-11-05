@@ -15,7 +15,6 @@ char *ansi_text(const char *msg, char *ansi_code, char *ansi_esc_seq_begin, char
         asprintf(&text, "%s\e[0;%sm%s%s%s\e[0m%s", ansi_esc_seq_begin, ansi_code, ansi_esc_seq_end, msg,
                  ansi_esc_seq_begin, ansi_esc_seq_end);
     }
-
     return text;
 }
 
