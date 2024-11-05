@@ -25,10 +25,20 @@ void az_config_setup(AZ_Config *cfg) {
         cfg->prompt_end_symbol = "";
     }
 
-    // TODO: retrieve the following colors from getenv
-    cfg->prompt_end_symbol_ansi_code = "36";
-    cfg->dir_ansi_code = "33";
-    cfg->git_ansi_code = "95";
+    cfg->prompt_end_symbol_ansi_code = getenv("AZILE_PROMPT_END_SYMBOL_COLOR");
+    if (cfg->prompt_end_symbol_ansi_code == NULL) {
+        cfg->prompt_end_symbol_ansi_code = "36";
+    }
+
+    cfg->dir_ansi_code = getenv("AZILE_DIR_COLOR");
+    if (cfg->dir_ansi_code == NULL) {
+        cfg->dir_ansi_code = "33";
+    }
+
+    cfg->git_ansi_code = getenv("AZILE_GIT_COLOR");
+    if (cfg->git_ansi_code == NULL) {
+        cfg->git_ansi_code = "95";
+    }
 
     cfg->git_status_symbol = getenv("AZILE_GIT_STATUS_SYMBOL");
     if (cfg->git_status_symbol == NULL) {
@@ -36,4 +46,5 @@ void az_config_setup(AZ_Config *cfg) {
     }
 }
 
+// placeholder for now, just in case config gets more complex
 void az_config_teardown(AZ_Config *cfg) { (void)cfg; }
