@@ -80,9 +80,8 @@ int main(void) {
         if (git_cfg) {
             if (git_config_get_string(&branch_value, git_cfg, "init.defaultBranch") == 0)
                 default_branch = strdup(branch_value);
-            git_config_free(git_cfg); // Free the config object
+            git_config_free(git_cfg);
         }
-
         az_sb_append_cstr(&prompt, ansi_text(default_branch, cfg.git_ansi_code, cfg.ansi_code_esc_seq_begin,
                                              cfg.ansi_code_esc_seq_end));
     }
