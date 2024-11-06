@@ -14,9 +14,6 @@ void az_config_setup(AZ_Config *cfg) {
         if (strstr(cfg->shell, "zsh") != NULL) {
             cfg->ansi_code_esc_seq_begin = "%%{";
             cfg->ansi_code_esc_seq_end = "%%}";
-        } else if (strstr(cfg->shell, "bash") != NULL) {
-            cfg->ansi_code_esc_seq_begin = "\\[";
-            cfg->ansi_code_esc_seq_end = "\\]";
         }
     }
 
