@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(azile VERSION 0.1.0)
 
-set(CMAKE_OSX_SYSROOT /Library/Developer/CommandLineTools/SDKs/MacOSX14.sdk)
-
 set(CMAKE_DEBUG_POSTFIX _d)
 
 set(CMAKE_C_STANDARD 99)
