@@ -71,7 +71,7 @@ sudo ./scripts/install.sh
 ```
 
 *Note: The install script runs the commands found in the following CMake section.
-Use `sudo` to move `tloc` executable into `/usr/local/bin/`. This requires
+Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
 elevated privilages and allows you to use `azile` from any directory*
 
 ##### CMake  
@@ -88,8 +88,8 @@ cmake -S . -B build/release
 sudo make install -C build/release
 ```
 
-*Note: Use `sudo` to move `tloc` executable into `/usr/local/bin/`. This requires
-elevated privilages and allows you to use `tloc` from any directory*
+*Note: Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
+elevated privilages and allows you to use `Azile` from any directory*
 
 
 ## Contributing 
