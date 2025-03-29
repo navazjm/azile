@@ -1,7 +1,8 @@
 #ifndef AZILE_CONFIG_H
 #define AZILE_CONFIG_H
 
-typedef struct {
+typedef struct
+{
     char *shell;
     char *ansi_code_esc_seq_begin;
     char *ansi_code_esc_seq_end;

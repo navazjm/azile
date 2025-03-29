@@ -5,7 +5,8 @@
 
 #define AZ_SB_INIT_CAP 256
 
-typedef struct {
+typedef struct
+{
     char *items;
     size_t count;
     size_t capacity;

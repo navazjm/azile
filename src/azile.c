@@ -7,35 +7,43 @@
 #include <string.h>
 #include <unistd.h>
 
-char *ansi_text(const char *msg, char *ansi_code, char *ansi_esc_seq_begin, char *ansi_esc_seq_end) {
+char *ansi_text(const char *msg, char *ansi_code, char *ansi_esc_seq_begin, char *ansi_esc_seq_end)
+{
     char *text;
-    if (ansi_esc_seq_begin == NULL) {
+    if (ansi_esc_seq_begin == NULL)
+    {
         asprintf(&text, "\e[0;%sm%s\e[0m", ansi_code, msg);
-    } else {
+    }
+    else
+    {
         asprintf(&text, "%s\e[0;%sm%s%s%s\e[0m%s", ansi_esc_seq_begin, ansi_code, ansi_esc_seq_end, msg,
                  ansi_esc_seq_begin, ansi_esc_seq_end);
     }
     return text;
 }
 
-int main(void) {
+int main(void)
+{
     bool result = true;
     AZ_String_Builder prompt = {0};
     AZ_Config cfg = {0};
     az_config_setup(&cfg);
 
     char *cwd = getcwd(NULL, 0);
-    if (cwd == NULL) {
+    if (cwd == NULL)
+    {
         az_return_defer(false);
     }
 
     git_libgit2_init();
     git_repository *git_repo;
-    if (git_repository_open_ext(&git_repo, cwd, GIT_REPOSITORY_OPEN_FROM_ENV, NULL) != 0) {
+    if (git_repository_open_ext(&git_repo, cwd, GIT_REPOSITORY_OPEN_FROM_ENV, NULL) != 0)
+    {
         // no git repo, just render "dir >> "
         const char *home = getenv("HOME");
         // print full cwd if no home or not in home dir
-        if (home == NULL || strncmp(cwd, home, strlen(home)) != 0) {
+        if (home == NULL || strncmp(cwd, home, strlen(home)) != 0)
+        {
             az_sb_append_cstr(
                 &prompt, ansi_text(cwd, cfg.dir_ansi_code, cfg.ansi_code_esc_seq_begin, cfg.ansi_code_esc_seq_end));
             az_sb_append_cstr(&prompt, " ");
@@ -65,19 +73,23 @@ int main(void) {
     *second_last_slash_pos = '/';
 
     git_reference *git_head_ref = NULL;
-    if (git_repository_head(&git_head_ref, git_repo) == 0) {
+    if (git_repository_head(&git_head_ref, git_repo) == 0)
+    {
         const char *branch = git_reference_shorthand(git_head_ref);
         if (branch)
             az_sb_append_cstr(
                 &prompt, ansi_text(branch, cfg.git_ansi_code, cfg.ansi_code_esc_seq_begin, cfg.ansi_code_esc_seq_end));
-    } else {
+    }
+    else
+    {
         // typically reach here when user is in newly created git dir, i.e., has no head reference yet.
         git_config *git_cfg = NULL;
         char *default_branch = "main"; // Fallback if no default is set in config
         const char *branch_value = NULL;
 
         git_config_open_default(&git_cfg);
-        if (git_cfg) {
+        if (git_cfg)
+        {
             if (git_config_get_string(&branch_value, git_cfg, "init.defaultBranch") == 0)
                 default_branch = strdup(branch_value);
             git_config_free(git_cfg);

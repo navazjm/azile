@@ -4,13 +4,17 @@
 #include <string.h>
 
 // Append a NULL-terminated string to a string builder
-void az_sb_append_cstr(AZ_String_Builder *sb, const char *cstr) {
+void az_sb_append_cstr(AZ_String_Builder *sb, const char *cstr)
+{
     size_t n = strlen(cstr);
-    if (sb->count + n > sb->capacity) {
-        if (sb->capacity == 0) {
+    if (sb->count + n > sb->capacity)
+    {
+        if (sb->capacity == 0)
+        {
             sb->capacity = AZ_SB_INIT_CAP;
         }
-        while (sb->count + n > sb->capacity) {
+        while (sb->count + n > sb->capacity)
+        {
             sb->capacity *= 2;
         }
         sb->items = realloc(sb->items, sb->capacity * sizeof(sb->items));
@@ -21,7 +25,8 @@ void az_sb_append_cstr(AZ_String_Builder *sb, const char *cstr) {
 }
 
 // Free the memory allocated by a string builder
-void az_sb_free(AZ_String_Builder *sb) {
+void az_sb_free(AZ_String_Builder *sb)
+{
     if (sb->items)
         free(sb->items);
 }
