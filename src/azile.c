@@ -11,14 +11,10 @@ char *ansi_text(const char *msg, char *ansi_code, char *ansi_esc_seq_begin, char
 {
     char *text;
     if (ansi_esc_seq_begin == NULL)
-    {
         asprintf(&text, "\e[0;%sm%s\e[0m", ansi_code, msg);
-    }
     else
-    {
         asprintf(&text, "%s\e[0;%sm%s%s%s\e[0m%s", ansi_esc_seq_begin, ansi_code, ansi_esc_seq_end, msg,
                  ansi_esc_seq_begin, ansi_esc_seq_end);
-    }
     return text;
 }
 
@@ -31,9 +27,7 @@ int main(void)
 
     char *cwd = getcwd(NULL, 0);
     if (cwd == NULL)
-    {
         az_return_defer(false);
-    }
 
     git_libgit2_init();
     git_repository *git_repo;

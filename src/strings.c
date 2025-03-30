@@ -10,9 +10,8 @@ void az_sb_append_cstr(AZ_String_Builder *sb, const char *cstr)
     if (sb->count + n > sb->capacity)
     {
         if (sb->capacity == 0)
-        {
             sb->capacity = AZ_SB_INIT_CAP;
-        }
+
         while (sb->count + n > sb->capacity)
         {
             sb->capacity *= 2;
