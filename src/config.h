@@ -13,7 +13,7 @@ typedef struct
     char *git_ansi_code;
 } AZ_Config;
 
-void az_config_setup(AZ_Config *cfg);
+void az_config_setup(AZ_Config *cfg, char *shell);
 void az_config_teardown(AZ_Config *cfg);
 
 #endif // AZILE_CONFIG_H

@@ -18,12 +18,17 @@ char *ansi_text(const char *msg, char *ansi_code, char *ansi_esc_seq_begin, char
     return text;
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
+    if (argc != 2)
+    {
+        printf("Usage: azile <shell>\n");
+        return 1;
+    }
     bool result = true;
     AZ_String_Builder prompt = {0};
     AZ_Config cfg = {0};
-    az_config_setup(&cfg);
+    az_config_setup(&cfg, argv[1]);
 
     char *cwd = getcwd(NULL, 0);
     if (cwd == NULL)
@@ -110,7 +115,7 @@ int main(void)
     git_status_list_free(git_status);
 
 defer:
-    printf("%s%s", prompt.items ? prompt.items : "",
+    printf("PS1='%s%s '", prompt.items ? prompt.items : "",
            ansi_text(cfg.prompt_end_symbol, cfg.prompt_end_symbol_ansi_code, cfg.ansi_code_esc_seq_begin,
                      cfg.ansi_code_esc_seq_end));
     fflush(stdout);

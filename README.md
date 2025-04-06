@@ -1,5 +1,7 @@
 # Azile
 
+> Note: This has only been tested on ARM based MacOS with Zsh.*
+
 ## Table of Contents
 - [Quick Start](#quick-start)
 - [Overview](#overview)
@@ -10,20 +12,26 @@
 
 ## Quick Start
 
-Step 1: Download azile. Checkout how to [install](#install) azile below.
+### Step 1: Get Azile binary file on your system. Checkout how to [install](#install) Azile below.
 
-Step 2: Add the following line to your shell rc
+### Step 2. Set up your shell to use Azile
+
+Configure your shell to initialize Azile. Select yours from the list below:
+
+<details>
+<summary>Zsh</summary>
+Add the following to the end of `~/.zshrc`:
 
 ```sh
-PS1='$(azile) '
+eval "$(azile zsh)"
 ```
+
+</details>
 
 ## Overview
 
 A very simple shell prompt configured to the exact design that I like. Refer to
 the images below.
-
-*Note: This has only been tested on ARM based MacOS with ZSH.*
 
 ### Non-git repo
 
@@ -52,7 +60,7 @@ the images below.
 git clone https://github.com/navazjm/azile.git
 ```
 
-2. cd into azile
+2. cd into Azile
 
 ```sh 
 cd azile
@@ -70,9 +78,9 @@ Either run the install script or manually build with CMake
 sudo ./scripts/install.sh
 ```
 
-*Note: The install script runs the commands found in the following CMake section.
-Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
-elevated privilages and allows you to use `azile` from any directory*
+> Note: The install script runs the commands found in the following CMake section.
+> Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
+> elevated privilages and allows you to use `Azile` from any directory
 
 ##### CMake  
 
@@ -88,8 +96,8 @@ cmake -S . -B build/release
 sudo make install -C build/release
 ```
 
-*Note: Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
-elevated privilages and allows you to use `Azile` from any directory*
+> Note: Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
+> elevated privilages and allows you to use `Azile` from any directory
 
 
 ## Contributing 
