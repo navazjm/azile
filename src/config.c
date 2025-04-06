@@ -11,14 +11,14 @@ void az_config_setup(AZ_Config *cfg)
     cfg->shell = getenv("SHELL");
     cfg->ansi_code_esc_seq_begin = NULL;
     cfg->ansi_code_esc_seq_end = NULL;
-    // if (cfg->shell != NULL)
-    // {
-    //     if (strstr(cfg->shell, "zsh") != NULL)
-    //     {
-    //         cfg->ansi_code_esc_seq_begin = "%%{";
-    //         cfg->ansi_code_esc_seq_end = "%%}";
-    //     }
-    // }
+    if (cfg->shell != NULL)
+    {
+        if (strstr(cfg->shell, "zsh") != NULL)
+        {
+            cfg->ansi_code_esc_seq_begin = "%{";
+            cfg->ansi_code_esc_seq_end = "%}";
+        }
+    }
 
     cfg->prompt_end_symbol = getenv("AZILE_PROMPT_END_SYMBOL");
     if (cfg->prompt_end_symbol == NULL)
