@@ -22,11 +22,3 @@ target_link_libraries(azile PRIVATE azile_lib ${LIBGIT2_LIBRARIES})  # Link the 
 set_target_properties(azile PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 install(TARGETS azile DESTINATION /usr/local/bin)
-
-### AddressSanitizer ###
-# target_compile_options(azile PRIVATE -fsanitize=address -fno-omit-frame-pointer)
-# target_link_options(azile PRIVATE -fsanitize=address)
-# set_target_properties(azile PROPERTIES
-#     COMPILE_FLAGS "-fsanitize=address -fno-omit-frame-pointer"
-#     LINK_FLAGS "-fsanitize=address"
-# )
