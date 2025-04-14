@@ -40,6 +40,7 @@ Try different combinations to match your theme or mood!
 
 <details>
 <summary>Bash</summary>
+
 ```sh
 export AZILE_DIR_COLOR="bright_blue"
 export AZILE_DIR_GIT_SEP=" >> "
@@ -53,6 +54,7 @@ export AZILE_PROMPT_END_SYMBOL_COLOR="bright_cyan"
 
 <details>
 <summary>Zsh</summary>
+
 ```sh
 export AZILE_DIR_COLOR="bright_blue"
 export AZILE_DIR_GIT_SEP=" >> "
@@ -62,6 +64,7 @@ export AZILE_GIT_STATUS_SYMBOL="✗"
 export AZILE_PROMPT_END_SYMBOL="❯"
 export AZILE_PROMPT_END_SYMBOL_COLOR="bright_cyan"
 ```
+
 </details>
 
 ## 🚀 Apply Changes
@@ -70,15 +73,19 @@ After modifying your shell configuration file:
 
 <details>
 <summary>Bash</summary>
+
 ```sh
 source ~/.bashrc
 ```
+
 </details>
 
 <details>
 <summary>Bash</summary>
+
 ```sh
 source ~/.zshrc
 ```
+
 </details>
 
