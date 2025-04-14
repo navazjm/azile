@@ -23,5 +23,5 @@ Please note by participating in this project, you agree to abide by the [code of
 ## Any contributions you make will be under the MIT Software License
 
 In short, when you submit code changes, your submissions are understood to be
-under the same [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0) that
+under the same [MIT License](https://choosealicense.com/licenses/mit/) that
 covers the project. Feel free to contact the maintainers if that's a concern.

@@ -114,4 +114,4 @@ Want to implement a feature request or fix a defect? Checkout our [contributing 
 
 ## License
 
-Azile is licensed under [GPL-3.0](./COPYING)
+Azile is licensed under [MIT](./LICENSE)
