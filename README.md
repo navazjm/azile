@@ -7,6 +7,7 @@
 - [Overview](#overview)
 - [Install](#install)
     - [Install From Source](#install-from-source)
+- [Customization](#customization)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -80,7 +81,7 @@ sudo ./scripts/install.sh
 
 > Note: The install script runs the commands found in the following CMake section.
 > Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
-> elevated privilages and allows you to use `Azile` from any directory
+> elevated privileges and allows you to use `Azile` from any directory
 
 ##### CMake  
 
@@ -97,8 +98,11 @@ sudo make install -C build/release
 ```
 
 > Note: Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
-> elevated privilages and allows you to use `Azile` from any directory
+> elevated privileges and allows you to use `Azile` from any directory
 
+## Customization
+
+Make Azile truly yours! Head over to our [customization guide](./docs/customization.md) to get started.
 
 ## Contributing 
 
