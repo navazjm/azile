@@ -12,7 +12,14 @@ typedef struct
     size_t capacity;
 } AZ_String_Builder;
 
-void az_sb_append_cstr(AZ_String_Builder *sb, const char *cstr);
+/*
+ * Append a NULL-terminated string to a string builder
+ */
+void az_sb_append(AZ_String_Builder *sb, const char *cstr);
+
+/*
+ * Free the memory allocated by a string builder
+ */
 void az_sb_free(AZ_String_Builder *sb);
 
 #endif // AZILE_STRINGS_H

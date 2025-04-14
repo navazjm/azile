@@ -1,10 +1,14 @@
 #ifndef AZILE_PROMPT_H
 #define AZILE_PROMPT_H
 
+#include "config.h"
 #include "strings.h"
 
-char *az_prompt_get_git_default_branch();
-char *az_prompt_ansi_text(const char *msg, char *ansi_code, char *ansi_esc_seq_begin, char *ansi_esc_seq_end);
-void az_prompt_build(AZ_String_Builder *prompt, char *shell);
+/*
+ * The heart of the Azile shell prompt. Builds each individual component
+ * (dir, git branch, git status, and end prompt) of the shell prompt.
+ *
+ */
+void az_prompt_build(AZ_String_Builder *prompt, AZ_Config *cfg);
 
 #endif // AZILE_PROMPT_H

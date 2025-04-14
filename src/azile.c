@@ -1,9 +1,10 @@
+#include "config.h"
 #include "prompt.h"
 #include "strings.h"
 #include <stdio.h>
 #include <string.h>
 
-void print_usage()
+static void print_usage()
 {
     printf("Usage: azile (init | prompt) <shell>\n");
 }
@@ -32,11 +33,15 @@ int main(int argc, char **argv)
     }
     else if (strcmp(cmd, "prompt") == 0)
     {
+
+        AZ_Config cfg = {0};
+        az_config_setup(&cfg, shell);
         AZ_String_Builder prompt = {0};
-        az_prompt_build(&prompt, shell);
+        az_prompt_build(&prompt, &cfg);
         printf("%s ", prompt.items ? prompt.items : "");
-        // printf("\nlen: %lu\n", strlen(prompt->items));
         fflush(stdout);
+        az_config_teardown(&cfg);
+        az_sb_free(&prompt);
     }
     else
     {
