@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Michael Navarro
+// MIT license, see LICENSE for more details.
+
 #include "config.h"
 #include "prompt.h"
 #include "strings.h"

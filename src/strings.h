@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Michael Navarro
+// MIT license, see LICENSE for more details.
+
 #ifndef AZILE_STRINGS_H
 #define AZILE_STRINGS_H
 

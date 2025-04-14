@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Michael Navarro
+// MIT license, see LICENSE for more details.
+
 #include "prompt.h"
 #include <git2.h>
 #include <stdbool.h>

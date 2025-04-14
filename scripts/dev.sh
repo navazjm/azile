@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## Copyright (c) 2025 Michael Navarro 
+## MIT license, see LICENSE for more details.
+
 rm -rf build/debug
 
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE=Debug -S . -B build/debug
