@@ -13,7 +13,7 @@ void az_config_setup(AZ_Config *cfg, char *shell)
 
     cfg->dir_color = getenv("AZILE_DIR_COLOR");
     if (cfg->dir_color == NULL)
-        cfg->dir_color = "yellow";
+        cfg->dir_color = "bright_yellow";
 
     cfg->dir_git_sep = getenv("AZILE_DIR_GIT_SEP");
     if (cfg->dir_git_sep == NULL)
@@ -25,7 +25,7 @@ void az_config_setup(AZ_Config *cfg, char *shell)
 
     cfg->git_color = getenv("AZILE_GIT_COLOR");
     if (cfg->git_color == NULL)
-        cfg->git_color = "bright_magenta";
+        cfg->git_color = "bright_red";
 
     cfg->git_status_symbol = getenv("AZILE_GIT_STATUS_SYMBOL");
     if (cfg->git_status_symbol == NULL)
@@ -37,7 +37,7 @@ void az_config_setup(AZ_Config *cfg, char *shell)
 
     cfg->prompt_end_symbol_color = getenv("AZILE_PROMPT_END_SYMBOL_COLOR");
     if (cfg->prompt_end_symbol_color == NULL)
-        cfg->prompt_end_symbol_color = "cyan";
+        cfg->prompt_end_symbol_color = "blue";
 }
 
 void az_config_teardown(AZ_Config *cfg)

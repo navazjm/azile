@@ -11,17 +11,17 @@ in your shell's configuration file (e.g., `.bashrc`, `.zshrc`, or `.profile`).
 Below are the available environment variables you can set to control Azile’s appearance. 
 Each variable has a sensible default that will be used if it's not explicitly set.
 
-| Environment Variable              | Description                                      | Default          |
+| Environment Variable              | Description                                     | Default          |
 |----------------------------------|--------------------------------------------------|------------------|
-| `AZILE_DIR_COLOR`                | Color of the current working directory           | `yellow`         |
+| `AZILE_DIR_COLOR`                | Color of the current working directory           | `bright_yellow`  |
 | `AZILE_DIR_GIT_SEP`              | Separator string between directory and Git info  | `::`             |
 | `AZILE_DIR_GIT_SEP_COLOR`        | Color of the directory/Git separator             | `white`          |
-| `AZILE_GIT_COLOR`                | Color of the Git branch name                     | `bright_magenta` |
-| `AZILE_GIT_STATUS_SYMBOL`        | Symbol shown when the Git working directory is dirty | `()`       |
+| `AZILE_GIT_COLOR`                | Color of the Git branch name                     | `bright_red`     |
+| `AZILE_GIT_STATUS_SYMBOL`        | Symbol shown when the Git working directory is dirty | `()`        |
 | `AZILE_PROMPT_END_SYMBOL`        | Final symbol at the end of the prompt            | ``              |
-| `AZILE_PROMPT_END_SYMBOL_COLOR`  | Color of the end prompt symbol                   | `cyan`           |
+| `AZILE_PROMPT_END_SYMBOL_COLOR`  | Color of the end prompt symbol                   | `blue`           |
 
-Azile supports the rendering of NerdFont Icons.
+Azile supports the rendering of NerdFont icons.
 
 ## 🎨 Color Options
 
