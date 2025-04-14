@@ -50,6 +50,7 @@ export AZILE_GIT_STATUS_SYMBOL="✗"
 export AZILE_PROMPT_END_SYMBOL="❯"
 export AZILE_PROMPT_END_SYMBOL_COLOR="bright_cyan"
 ```
+
 </details>
 
 <details>
@@ -64,6 +65,8 @@ export AZILE_GIT_STATUS_SYMBOL="✗"
 export AZILE_PROMPT_END_SYMBOL="❯"
 export AZILE_PROMPT_END_SYMBOL_COLOR="bright_cyan"
 ```
+
+</details>
 
 ## 🔄 Revert Customization
 
