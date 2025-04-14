@@ -112,7 +112,7 @@ source ~/.bashrc
 </details>
 
 <details>
-<summary>Bash</summary>
+<summary>Zsh</summary>
 
 ```sh
 source ~/.zshrc
