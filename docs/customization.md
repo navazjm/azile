@@ -65,6 +65,34 @@ export AZILE_PROMPT_END_SYMBOL="❯"
 export AZILE_PROMPT_END_SYMBOL_COLOR="bright_cyan"
 ```
 
+## 🔄 Revert Customization
+
+To reset Azile to its default appearance, you can remove any customizations 
+you've added by unsetting the related environment variables. Remove them from
+your shell’s RC file (e.g., `.bashrc`, `.zshrc`) and run the following command
+in your terminal, replacing `<VAR_NAME>` with the specific variable you'd like to reset.
+
+<details>
+<summary>Bash</summary>
+
+```sh
+unset <VAR_NAME> 
+
+# example, reset dir color to default value of bright_yellow
+unset AZILE_DIR_COLOR
+```
+</details>
+
+<details>
+<summary>Zsh</summary>
+
+```sh
+unset <VAR_NAME> 
+
+# example, reset dir color to default value of bright_yellow
+unset AZILE_DIR_COLOR
+```
+
 </details>
 
 ## 🚀 Apply Changes
