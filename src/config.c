@@ -38,6 +38,10 @@ void az_config_setup(AZ_Config *cfg, char *shell)
     cfg->prompt_end_symbol_color = getenv("AZILE_PROMPT_END_SYMBOL_COLOR");
     if (cfg->prompt_end_symbol_color == NULL)
         cfg->prompt_end_symbol_color = "blue";
+
+    // don't care what the value is, just if it exists in env variable, set to true
+    char *prompt_end_symbol_newline = getenv("AZILE_PROMPT_END_SYMBOL_NEWLINE");
+    cfg->prompt_end_symbol_newline = prompt_end_symbol_newline != NULL;
 }
 
 void az_config_teardown(AZ_Config *cfg)

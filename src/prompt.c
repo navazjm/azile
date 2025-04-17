@@ -186,7 +186,11 @@ void az_prompt_build(AZ_String_Builder *prompt, AZ_Config *cfg)
         {
             // print full cwd if no home dir found or home dir not a prefix of cwd
             az_prompt_append_text(prompt, cfg->cwd, cfg->shell, cfg->dir_color);
-            az_sb_append(prompt, " ");
+
+            if (cfg->prompt_end_symbol_newline)
+                az_sb_append(prompt, "\n");
+            else
+                az_sb_append(prompt, " ");
             az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell, cfg->prompt_end_symbol_color);
 
             git_libgit2_shutdown();
@@ -196,7 +200,10 @@ void az_prompt_build(AZ_String_Builder *prompt, AZ_Config *cfg)
         // truncate home path to "~"
         az_prompt_append_text(prompt, "~", cfg->shell, cfg->dir_color);
         az_prompt_append_text(prompt, cfg->cwd + strlen(home), cfg->shell, cfg->dir_color);
-        az_sb_append(prompt, " ");
+        if (cfg->prompt_end_symbol_newline)
+            az_sb_append(prompt, "\n");
+        else
+            az_sb_append(prompt, " ");
         az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell, cfg->prompt_end_symbol_color);
 
         git_libgit2_shutdown();
@@ -242,7 +249,11 @@ void az_prompt_build(AZ_String_Builder *prompt, AZ_Config *cfg)
     size_t git_status_size = git_status_list_entrycount(git_status);
     if (git_status_size != 0)
         az_prompt_append_text(prompt, cfg->git_status_symbol, cfg->shell, cfg->git_color);
-    az_sb_append(prompt, " ");
+
+    if (cfg->prompt_end_symbol_newline)
+        az_sb_append(prompt, "\n");
+    else
+        az_sb_append(prompt, " ");
     az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell, cfg->prompt_end_symbol_color);
 
     git_repository_free(git_repo);

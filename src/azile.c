@@ -36,7 +36,6 @@ int main(int argc, char **argv)
     }
     else if (strcmp(cmd, "prompt") == 0)
     {
-
         AZ_Config cfg = {0};
         az_config_setup(&cfg, shell);
         AZ_String_Builder prompt = {0};

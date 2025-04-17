@@ -4,6 +4,8 @@
 #ifndef AZILE_CONFIG_H
 #define AZILE_CONFIG_H
 
+#include <stdbool.h>
+
 typedef struct
 {
     char *cwd;
@@ -15,6 +17,7 @@ typedef struct
     char *git_color;
     char *prompt_end_symbol;
     char *prompt_end_symbol_color;
+    bool prompt_end_symbol_newline;
 } AZ_Config;
 
 /*
