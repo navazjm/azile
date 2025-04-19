@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 
     if (strcmp(cmd, "init") == 0)
     {
-        if (strcmp(shell, "zsh") == 0)
+        if (strcmp(shell, "bash") == 0 || strcmp(shell, "zsh") == 0)
             printf("PS1=$'$(azile prompt %s)'", shell);
         else
         {

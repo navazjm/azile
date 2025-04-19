@@ -65,15 +65,16 @@ static char *az_prompt_get_git_default_branch()
  */
 static void az_prompt_append_escape_sequence(AZ_String_Builder *prompt, const char *shell, bool is_begin)
 {
-    char *esc_seq = "";
+    const char *esc_seq = "";
 
-    // TODO: support other shells
+    if (strcmp(shell, "bash") == 0)
+    {
+        // equivalent to =>  "\\["  : "\\]";
+        esc_seq = is_begin ? "\001" : "\002";
+    }
     if (strcmp(shell, "zsh") == 0)
     {
-        if (is_begin)
-            esc_seq = "%{";
-        else
-            esc_seq = "%}";
+        esc_seq = is_begin ? "%{" : "%}";
     }
 
     az_sb_append(prompt, esc_seq);

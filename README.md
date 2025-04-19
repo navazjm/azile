@@ -1,6 +1,6 @@
 # Azile
 
-> Note: This has only been tested on ARM based MacOS with Zsh.*
+> Note: This has only been tested on ARM based MacOS.*
 
 ## Table of Contents
 - [Quick Start](#quick-start)
@@ -20,11 +20,21 @@
 Configure your shell to initialize Azile. Select yours from the list below:
 
 <details>
+<summary>Bssh</summary>
+Add the following to the end of `~/.bashrc`:
+
+```sh
+eval "$(azile init bash)"
+```
+
+</details>
+
+<details>
 <summary>Zsh</summary>
 Add the following to the end of `~/.zshrc`:
 
 ```sh
-eval "$(azile zsh)"
+eval "$(azile init zsh)"
 ```
 
 </details>
