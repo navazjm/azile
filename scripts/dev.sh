@@ -16,6 +16,7 @@ ln -s build/debug/compile_commands.json compile_commands.json
 
 if [ $? -eq 0 ]; then
     echo "Debug - Build succeeded!"
+    ./build/debug/azile_d "$@"
 else
     echo "Debug - Build failed!"
     exit 1
