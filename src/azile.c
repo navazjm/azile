@@ -4,27 +4,30 @@
 #include "config.h"
 #include "prompt.h"
 #include "strings.h"
+#include "usage.h"
 #include <stdio.h>
 #include <string.h>
 
-static void print_usage()
-{
-    printf("Usage: azile (init | prompt) <shell>\n");
-}
-
 int main(int argc, char **argv)
 {
-    if (argc != 3)
+    if (argc < 2)
     {
-        print_usage();
+        az_usage_print_full_help();
         return 1;
     }
 
     char *cmd = argv[1];
-    char *shell = argv[2];
 
     if (strcmp(cmd, "init") == 0)
     {
+        if (argc != 3)
+        {
+            az_usage_print_command_init();
+            return 1;
+        }
+
+        char *shell = argv[2];
+
         if (strcmp(shell, "bash") == 0 || strcmp(shell, "zsh") == 0)
         {
             printf("PS1=$'$(azile prompt %s)'", shell);
@@ -38,12 +41,19 @@ int main(int argc, char **argv)
         else
         {
             printf("ERROR: unknown shell {%s}\n", shell);
-            print_usage();
+            az_usage_print_command_init();
             return 1;
         }
     }
     else if (strcmp(cmd, "prompt") == 0)
     {
+        if (argc != 3)
+        {
+            az_usage_print_command_prompt();
+            return 1;
+        }
+
+        char *shell = argv[2];
         AZ_Config cfg = {0};
         az_config_setup(&cfg, shell);
         AZ_String_Builder prompt = {0};
@@ -53,10 +63,14 @@ int main(int argc, char **argv)
         az_config_teardown(&cfg);
         az_sb_free(&prompt);
     }
+    else if (strcmp(cmd, "help") == 0)
+    {
+        az_usage_print_full_help();
+    }
     else
     {
         printf("ERROR: unknown command {%s}\n", cmd);
-        print_usage();
+        az_usage_print_full_help();
         return 1;
     }
 
