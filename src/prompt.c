@@ -2,6 +2,7 @@
 // MIT license, see LICENSE for more details.
 
 #include "prompt.h"
+#include <assert.h>
 #include <git2.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -65,6 +66,12 @@ static char *az_prompt_get_git_default_branch()
  */
 static void az_prompt_append_escape_sequence(AZ_String_Builder *prompt, const char *shell, bool is_begin)
 {
+    if (strcmp(shell, "fish") == 0)
+    {
+        // Fish shell does not require escape sequence for ansi codes
+        return;
+    }
+
     const char *esc_seq = "";
 
     if (strcmp(shell, "bash") == 0)
@@ -72,9 +79,14 @@ static void az_prompt_append_escape_sequence(AZ_String_Builder *prompt, const ch
         // equivalent to =>  "\\["  : "\\]";
         esc_seq = is_begin ? "\001" : "\002";
     }
-    if (strcmp(shell, "zsh") == 0)
+    else if (strcmp(shell, "zsh") == 0)
     {
         esc_seq = is_begin ? "%{" : "%}";
+    }
+    else
+    {
+        assert(false && "Unsupported shell");
+        return;
     }
 
     az_sb_append(prompt, esc_seq);

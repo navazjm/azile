@@ -55,6 +55,21 @@ export AZILE_PROMPT_END_SYMBOL_COLOR="bright_cyan"
 </details>
 
 <details>
+<summary>Fish</summary>
+
+```sh
+set -x AZILE_DIR_COLOR "bright_blue"
+set -x AZILE_DIR_GIT_SEP " >> "
+set -x AZILE_DIR_GIT_SEP_COLOR "green"
+set -x AZILE_GIT_COLOR "bright_yellow"
+set -x AZILE_GIT_STATUS_SYMBOL "✗"
+set -x AZILE_PROMPT_END_SYMBOL "❯"
+set -x AZILE_PROMPT_END_SYMBOL_COLOR "bright_cyan"
+```
+
+</details>
+
+<details>
 <summary>Zsh</summary>
 
 ```sh
@@ -85,6 +100,19 @@ unset <VAR_NAME>
 # example, reset dir color to default value of bright_yellow
 unset AZILE_DIR_COLOR
 ```
+
+</details>
+
+<details>
+<summary>Fish</summary>
+
+```sh
+set -e <VAR_NAME> 
+
+# example, reset dir color to default value of bright_yellow
+set -e AZILE_DIR_COLOR
+```
+
 </details>
 
 <details>
@@ -108,6 +136,15 @@ After modifying your shell configuration file:
 
 ```sh
 source ~/.bashrc
+```
+
+</details>
+
+<details>
+<summary>Fish</summary>
+
+```sh
+source ~/.config/fish/config.fish
 ```
 
 </details>

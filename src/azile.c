@@ -26,7 +26,15 @@ int main(int argc, char **argv)
     if (strcmp(cmd, "init") == 0)
     {
         if (strcmp(shell, "bash") == 0 || strcmp(shell, "zsh") == 0)
+        {
             printf("PS1=$'$(azile prompt %s)'", shell);
+        }
+        else if (strcmp(shell, "fish") == 0)
+        {
+            printf("function fish_prompt\n"
+                   "    azile prompt fish\n"
+                   "end\n\n");
+        }
         else
         {
             printf("ERROR: unknown shell {%s}\n", shell);

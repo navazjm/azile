@@ -20,11 +20,21 @@
 Configure your shell to initialize Azile. Select yours from the list below:
 
 <details>
-<summary>Bssh</summary>
+<summary>Bash</summary>
 Add the following to the end of `~/.bashrc`:
 
 ```sh
 eval "$(azile init bash)"
+```
+
+</details>
+
+<details>
+<summary>Fish</summary>
+Add the following to the end of `~/.config/fish/config.fish`:
+
+```sh
+azile init fish | source
 ```
 
 </details>
