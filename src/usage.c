@@ -6,43 +6,54 @@
 
 void az_usage_print_full_help()
 {
-    printf("Usage: azile (command) [options]\n\n"
-           "Commands:\n");
-    az_usage_print_command_init();
-    az_usage_print_command_prompt();
-    az_usage_print_command_cfg();
-    az_usage_print_command_help();
+    printf("Usage: azile (command) [options]\n"
+           "\n"
+           "Commands:\n"
+           "  init: Outputs shell-specific code to configure your prompt to use azile\n"
+           "    Usage: azile init <shell>\n"
+           "    Shell: bash, fish, zsh\n"
+           "\n"
+           "  prompt: Builds the prompt string to render based on the shell option\n"
+           "    Usage: azile prompt <shell>\n"
+           "    Shell: bash, fish, zsh\n"
+           "\n"
+           "  cfg: Configure azile settings to your preferences\n"
+           "    Usage: azile cfg (subcommand) [options]\n"
+           "    Subcommands:\n"
+           "      list: View all AZILE_ env vars and their values\n"
+           "        Usage: azile cfg list\n"
+           "\n"
+           "  help: Show usage information\n"
+           "    Usage: azile help\n"
+           "\n");
 }
 
 void az_usage_print_command_init()
 {
-    printf("  init: Outputs shell-specific code to configure your prompt to use azile\n"
-           "    Usage: azile init <shell>\n"
-           "    Shell: bash, fish, zsh\n"
+    printf("Outputs shell-specific code to configure your prompt to use azile\n"
+           "\n"
+           "Usage: azile init <shell>\n"
+           "  Shell: bash, fish, zsh\n"
            "\n");
 }
 
 void az_usage_print_command_prompt()
 {
-    printf("  prompt: Builds the prompt string to render based on the shell option\n"
-           "    Usage: azile prompt <shell>\n"
-           "    Shell: bash, fish, zsh\n"
+    printf("Builds the prompt string to render based on the shell option\n"
+           "\n"
+           "Usage: azile prompt <shell>\n"
+           "  Shell: bash, fish, zsh\n"
            "\n");
 }
 
 void az_usage_print_command_cfg()
 {
-    printf("  cfg: \n"
-           "    Usage: azile cfg (subcommand) [options]\n"
-           "    Subcommands:\n"
-           "      list:\n"
-           "        Usage: azile cfg list\n"
-           "\n");
-}
-
-void az_usage_print_command_help()
-{
-    printf("  help: Displays azile usage help\n"
-           "    Usage: azile help\n"
+    printf("Configure azile settings to your preferences\n"
+           "\n"
+           "Usage: azile cfg (subcommand)\n"
+           "\n"
+           "Subcommands:\n"
+           "  list: View all AZILE_ env vars and their values\n"
+           "    Usage: azile cfg list\n"
            "\n");
 }
