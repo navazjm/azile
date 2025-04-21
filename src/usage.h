@@ -7,6 +7,7 @@
 void az_usage_print_full_help();
 void az_usage_print_command_init();
 void az_usage_print_command_prompt();
+void az_usage_print_command_cfg();
 void az_usage_print_command_help();
 
 #endif // AZILE_USAGE_H

@@ -2,6 +2,7 @@
 // MIT license, see LICENSE for more details.
 
 #include "config.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -50,4 +51,16 @@ void az_config_teardown(AZ_Config *cfg)
 
     if (cfg->cwd)
         free(cfg->cwd);
+}
+
+void az_config_print_env(AZ_Config *cfg)
+{
+    printf("AZILE_DIR_COLOR -> %s\n", cfg->dir_color);
+    printf("AZILE_DIR_GIT_SEP -> %s\n", cfg->dir_git_sep);
+    printf("AZILE_DIR_GIT_SEP_COLOR -> %s\n", cfg->dir_git_sep_color);
+    printf("AZILE_GIT_COLOR -> %s\n", cfg->git_color);
+    printf("AZILE_GIT_STATUS_SYMBOL -> %s\n", cfg->git_status_symbol);
+    printf("AZILE_PROMPT_END_SYMBOL -> %s\n", cfg->prompt_end_symbol);
+    printf("AZILE_PROMPT_END_SYMBOL_COLOR -> %s\n", cfg->prompt_end_symbol_color);
+    printf("AZILE_PROMPT_END_SYMBOL_NEWLINE -> %s\n", cfg->prompt_end_symbol_newline ? "true" : "false");
 }

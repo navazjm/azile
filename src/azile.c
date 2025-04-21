@@ -63,6 +63,30 @@ int main(int argc, char **argv)
         az_config_teardown(&cfg);
         az_sb_free(&prompt);
     }
+    else if (strcmp(cmd, "cfg") == 0)
+    {
+        if (argc < 3)
+        {
+            az_usage_print_command_cfg();
+            return 1;
+        }
+
+        char *sub_cmd = argv[2];
+
+        if (strcmp(sub_cmd, "list") == 0)
+        {
+
+            if (argc != 3)
+            {
+                az_usage_print_command_cfg();
+                return 1;
+            }
+            AZ_Config cfg = {0};
+            az_config_setup(&cfg, NULL);
+            az_config_print_env(&cfg);
+            az_config_teardown(&cfg);
+        }
+    }
     else if (strcmp(cmd, "help") == 0)
     {
         az_usage_print_full_help();

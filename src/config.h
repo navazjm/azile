@@ -30,4 +30,9 @@ void az_config_setup(AZ_Config *cfg, char *shell);
  */
 void az_config_teardown(AZ_Config *cfg);
 
+/*
+ * Prints all AZILE_ environment variables and their current values.
+ */
+void az_config_print_env(AZ_Config *cfg);
+
 #endif // AZILE_CONFIG_H

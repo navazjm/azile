@@ -10,6 +10,7 @@ void az_usage_print_full_help()
            "Commands:\n");
     az_usage_print_command_init();
     az_usage_print_command_prompt();
+    az_usage_print_command_cfg();
     az_usage_print_command_help();
 }
 
@@ -26,6 +27,16 @@ void az_usage_print_command_prompt()
     printf("  prompt: Builds the prompt string to render based on the shell option\n"
            "    Usage: azile prompt <shell>\n"
            "    Shell: bash, fish, zsh\n"
+           "\n");
+}
+
+void az_usage_print_command_cfg()
+{
+    printf("  cfg: \n"
+           "    Usage: azile cfg (subcommand) [options]\n"
+           "    Subcommands:\n"
+           "      list:\n"
+           "        Usage: azile cfg list\n"
            "\n");
 }
 
