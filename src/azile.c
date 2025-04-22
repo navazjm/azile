@@ -31,12 +31,19 @@ int main(int argc, char **argv)
         if (strcmp(shell, "bash") == 0 || strcmp(shell, "zsh") == 0)
         {
             printf("PS1=$'$(azile prompt %s)'", shell);
+            return 0;
         }
         else if (strcmp(shell, "fish") == 0)
         {
             printf("function fish_prompt\n"
                    "    azile prompt fish\n"
                    "end\n\n");
+            return 0;
+        }
+        else if (strcmp(shell, "help") == 0)
+        {
+            az_usage_print_command_init();
+            return 0;
         }
         else
         {
@@ -54,6 +61,12 @@ int main(int argc, char **argv)
         }
 
         char *shell = argv[2];
+        if (strcmp(shell, "help") == 0)
+        {
+            az_usage_print_command_prompt();
+            return 0;
+        }
+
         AZ_Config cfg = {0};
         az_config_setup(&cfg, shell);
         AZ_String_Builder prompt = {0};
@@ -62,6 +75,7 @@ int main(int argc, char **argv)
         fflush(stdout);
         az_config_teardown(&cfg);
         az_sb_free(&prompt);
+        return 0;
     }
     else if (strcmp(cmd, "cfg") == 0)
     {
@@ -85,11 +99,25 @@ int main(int argc, char **argv)
             az_config_setup(&cfg, NULL);
             az_config_print_env(&cfg);
             az_config_teardown(&cfg);
+            return 0;
+        }
+        else if (strcmp(sub_cmd, "help") == 0)
+        {
+
+            az_usage_print_command_cfg();
+            return 0;
+        }
+        else
+        {
+            printf("ERROR: unknown cfg subcommand {%s}\n", sub_cmd);
+            az_usage_print_command_cfg();
+            return 1;
         }
     }
     else if (strcmp(cmd, "help") == 0)
     {
         az_usage_print_full_help();
+        return 0;
     }
     else
     {
