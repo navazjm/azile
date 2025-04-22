@@ -25,6 +25,9 @@ void az_usage_print_full_help()
            "\n"
            "  help: Show usage information\n"
            "    Usage: azile help\n"
+           "\n"
+           "  version: Show installed version of azile\n"
+           "    Usage: azile version\n"
            "\n");
 }
 

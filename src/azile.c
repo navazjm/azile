@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define AZILE_VERSION "0.1.0"
+
 int main(int argc, char **argv)
 {
     if (argc < 2)
@@ -117,6 +119,11 @@ int main(int argc, char **argv)
     else if (strcmp(cmd, "help") == 0)
     {
         az_usage_print_full_help();
+        return 0;
+    }
+    else if (strcmp(cmd, "version") == 0)
+    {
+        printf("Azile version => " AZILE_VERSION "\n");
         return 0;
     }
     else
