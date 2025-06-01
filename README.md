@@ -7,6 +7,7 @@
 - [Overview](#overview)
 - [Install](#install)
     - [Install From Source](#install-from-source)
+- [Shell Configuration](#shell-configuration)
 - [Customization](#customization)
 - [Contributing](#contributing)
 - [License](#license)
@@ -89,36 +90,68 @@ cd azile
 
 #### MacOS & Linux
 
-Either run the install script or manually build with CMake
+Either run the install script or manually build [nob.h](https://github.com/tsoding/nob.h)
 
 ##### Script
 
 1. Run the install script 
 
 ```sh 
-sudo ./scripts/install.sh
+./scripts/install.sh
 ```
 
-> Note: The install script runs the commands found in the following CMake section.
-> Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
-> elevated privileges and allows you to use `Azile` from any directory
+> Note: The install script runs the commands found below.
 
-##### CMake  
+##### C Compiler  
 
-1. Run cmake
+1. Build and run nob
 
 ```sh 
-cmake -S . -B build/release
+cc ./build/nob.c -o ./build/nob && ./build/nob
 ```
 
-3. Run make install
+> Note: Running nob executable will generate the azile executable.
+
+2. Move azile to /usr/local/bin
 
 ```sh 
-sudo make install -C build/release
+sudo cp ./build/azile /usr/local/bin/
 ```
 
-> Note: Use `sudo` to move `Azile` executable into `/usr/local/bin/`. This requires
-> elevated privileges and allows you to use `Azile` from any directory
+## Shell Configuration
+
+Configure your shell to initialize Azile. Select yours from the list below:
+
+<details>
+<summary>Bash</summary>
+Add the following to the end of `~/.bashrc`:
+
+```sh
+eval "$(azile init bash)"
+```
+
+</details>
+
+<details>
+<summary>Fish</summary>
+Add the following to the end of `~/.config/fish/config.fish`:
+
+```sh
+azile init fish | source
+```
+
+</details>
+
+<details>
+<summary>Zsh</summary>
+Add the following to the end of `~/.zshrc`:
+
+```sh
+eval "$(azile init zsh)"
+```
+
+</details>
+
 
 ## Customization
 
