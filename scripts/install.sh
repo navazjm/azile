@@ -1,9 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## Copyright (c) 2025 Michael Navarro 
 ## MIT license, see LICENSE for more details.
 
-## Needs to be ran from root of project: ./scripts/install.sh
+## Currently this script, builds azile locally and moves the executable to /usr/local/bin
+## TODO: update this script to download azile executable from github releases
+##       to one of the following dirs:
+##           ~/.local/bin
+##           /usr/local/bin
 
 set -e
 
