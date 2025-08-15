@@ -36,7 +36,8 @@ static char *az_prompt_get_git_default_branch()
         {
             while (git_config_next(&git_global_cfg_entry, git_global_cfg_iter) == 0)
             {
-                if (git_global_cfg_entry && strcmp(git_global_cfg_entry->name, "init.defaultbranch") == 0)
+                if (git_global_cfg_entry &&
+                    strcmp(git_global_cfg_entry->name, "init.defaultbranch") == 0)
                 {
                     git_default_branch = git_global_cfg_entry->value;
                     if (git_default_branch)
@@ -64,7 +65,8 @@ static char *az_prompt_get_git_default_branch()
  * Otherwise, there could be weird behavior with cursor position
  * with stuff like tab completion, zsh auto-completion, and so on.
  */
-static void az_prompt_append_escape_sequence(AZ_String_Builder *prompt, const char *shell, bool is_begin)
+static void az_prompt_append_escape_sequence(AZ_String_Builder *prompt, const char *shell,
+                                             bool is_begin)
 {
     if (strcmp(shell, "fish") == 0)
     {
@@ -128,8 +130,8 @@ static void az_prompt_append_ansi_color_code(AZ_String_Builder *prompt, const ch
         modifier = "4;";
     az_sb_append(prompt, modifier);
 
-    // red by default, so if user does not specify color or color is ill-formatted (i.e., color = bright)
-    // output is still readable as black or white are typically used for terminal bg
+    // red by default, so if user does not specify color or color is ill-formatted (i.e., color =
+    // bright) output is still readable as black or white are typically used for terminal bg
     uint8_t color_ansi_code = 31;
     if (strstr(color, "black") != NULL)
         color_ansi_code = 30;
@@ -166,7 +168,8 @@ static void az_prompt_append_ansi_color_code(AZ_String_Builder *prompt, const ch
  * Finally, we append the reset ansi value, to reset the color back to the terminal's
  * default color.
  */
-static void az_prompt_append_text(AZ_String_Builder *prompt, const char *text, const char *shell, const char *color)
+static void az_prompt_append_text(AZ_String_Builder *prompt, const char *text, const char *shell,
+                                  const char *color)
 {
     az_prompt_append_escape_sequence(prompt, shell, ESC_SEQ_BEGIN);
     az_prompt_append_ansi_color_code(prompt, color);
@@ -184,7 +187,8 @@ void az_prompt_build(AZ_String_Builder *prompt, AZ_Config *cfg)
     if (cfg->cwd == NULL)
     {
         // Failed to get cwd, just append end prompt symbol
-        az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell, cfg->prompt_end_symbol_color);
+        az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell,
+                              cfg->prompt_end_symbol_color);
         return;
     }
 
@@ -204,7 +208,8 @@ void az_prompt_build(AZ_String_Builder *prompt, AZ_Config *cfg)
                 az_sb_append(prompt, "\n");
             else
                 az_sb_append(prompt, " ");
-            az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell, cfg->prompt_end_symbol_color);
+            az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell,
+                                  cfg->prompt_end_symbol_color);
 
             git_libgit2_shutdown();
             return;
@@ -217,7 +222,8 @@ void az_prompt_build(AZ_String_Builder *prompt, AZ_Config *cfg)
             az_sb_append(prompt, "\n");
         else
             az_sb_append(prompt, " ");
-        az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell, cfg->prompt_end_symbol_color);
+        az_prompt_append_text(prompt, cfg->prompt_end_symbol, cfg->shell,
+                              cfg->prompt_end_symbol_color);
 
         git_libgit2_shutdown();
         return;
@@ -245,9 +251,11 @@ void az_prompt_build(AZ_String_Builder *prompt, AZ_Config *cfg)
     }
     else
     {
-        // typically reach here when user is in newly created git dir, i.e., has no head reference yet.
+        // typically reach here when user is in newly created git dir, i.e., has no head reference
+        // yet.
         char *git_default_branch = az_prompt_get_git_default_branch();
-        az_prompt_append_text(prompt, git_default_branch ? git_default_branch : "main", cfg->shell, cfg->git_color);
+        az_prompt_append_text(prompt, git_default_branch ? git_default_branch : "main", cfg->shell,
+                              cfg->git_color);
         if (git_default_branch)
             free(git_default_branch);
     }

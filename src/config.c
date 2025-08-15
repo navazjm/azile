@@ -62,5 +62,6 @@ void az_config_print_env(AZ_Config *cfg)
     printf("AZILE_GIT_STATUS_SYMBOL -> %s\n", cfg->git_status_symbol);
     printf("AZILE_PROMPT_END_SYMBOL -> %s\n", cfg->prompt_end_symbol);
     printf("AZILE_PROMPT_END_SYMBOL_COLOR -> %s\n", cfg->prompt_end_symbol_color);
-    printf("AZILE_PROMPT_END_SYMBOL_NEWLINE -> %s\n", cfg->prompt_end_symbol_newline ? "true" : "false");
+    printf("AZILE_PROMPT_END_SYMBOL_NEWLINE -> %s\n",
+           cfg->prompt_end_symbol_newline ? "true" : "false");
 }
